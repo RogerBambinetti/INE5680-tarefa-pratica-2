@@ -28,20 +28,26 @@ export async function initClient() {
                 const password = readPrompt('Digite a senha: ');
                 const location = await getCountryFromIP();
 
-                const { data } = await client.post('/user/create', {
+                const { data: createData } = await client.post('/user/create', {
                     username,
                     password,
                     location
                 });
 
-                console.log(data.message, data.user);
-
+                console.log(createData.message, createData.user);
                 break;
             case '2':
                 const usernameAuth = readPrompt('Digite o nome de usuário: ');
                 const passwordAuth = readPrompt('Digite a senha: ');
                 const totpCode = readPrompt('Digite o código TOTP: ');
                 const secretTotp = readPrompt('Digite o segredo TOTP: ');
+
+                const { data: authData } = await client.post('/user/auth', {
+                    username: usernameAuth,
+                    password: passwordAuth,
+                    totpCode,
+                    secretTotp
+                });
 
                 console.log('Usuário autenticado com sucesso!');
 

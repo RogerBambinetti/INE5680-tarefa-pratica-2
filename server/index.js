@@ -22,6 +22,10 @@ export function initServer() {
         });
     });
 
+    app.post('/user/auth', (req, res) => {
+
+    });
+
     app.listen(3000);
 }
 
