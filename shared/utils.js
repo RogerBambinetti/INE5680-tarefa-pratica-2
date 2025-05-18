@@ -1,5 +1,9 @@
 import crypto from 'crypto';
 import { promisify } from 'util';
+import { totp } from 'otplib';
+import fetch from 'node-fetch';
+
+const TOKEN = 'SEU_TOKEN_IPINFO_AQUI';
 
 const pbkdf2 = promisify(crypto.pbkdf2);
 
@@ -30,4 +34,14 @@ export function decryptAESGCM(cipherText, key, ivBase64, tagBase64) {
         decipher.final()
     ]);
     return decrypted.toString();
+}
+
+export function generateTOTP(secret) {
+    return totp.generate(secret);
+}
+
+export async function getCountryFromIP() {
+    const res = await fetch(`https://ipinfo.io/json?token=${TOKEN}`);
+    const data = await res.json();
+    return data.country;
 }
