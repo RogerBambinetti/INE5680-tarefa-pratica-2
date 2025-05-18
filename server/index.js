@@ -11,6 +11,8 @@ export function initServer() {
     app.post('/user/create', (req, res) => {
         const user = { ...req.body, salt: generateSalt() };
 
+        writeData('users', user);
+
         return res.status(200).json({
             message: 'Usuário cadastrado com sucesso!',
             user
