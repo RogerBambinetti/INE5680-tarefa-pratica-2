@@ -1,0 +1,34 @@
+const fs = require('fs');
+const path = require('path');
+
+const DATA_FILE = path.join(__dirname, 'data.json');
+
+export function readData() {
+    try {
+        if (!fs.existsSync(DATA_FILE)) {
+            fs.writeFileSync(DATA_FILE, JSON.stringify([]));
+        }
+        const data = fs.readFileSync(DATA_FILE, 'utf-8');
+        return JSON.parse(data);
+    } catch (err) {
+        console.error('Error reading data:', err);
+        return [];
+    }
+}
+
+export function writeData(collection, data) {
+    try {
+
+        const currentData = readData();
+        const collectionData = currentData[collection] || [];
+
+        collectionData.push(data);
+        currentData[collection] = collectionData;
+
+        fs.writeFileSync(DATA_FILE, JSON.stringify(collectionData, null, 2));
+        return true;
+    } catch (err) {
+        console.error('Error writing data:', err);
+        return false;
+    }
+}
