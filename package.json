@@ -1,0 +1,24 @@
+{
+  "name": "ine5680-tarefa-pratica-2",
+  "version": "1.0.0",
+  "description": "- [Node.js](https://nodejs.org/) (versão 22)\r - [npm](https://www.npmjs.com/) (geralmente instalado junto com o Node.js)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RogerBambinetti/INE5680-tarefa-pratica-2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RogerBambinetti/INE5680-tarefa-pratica-2/issues"
+  },
+  "homepage": "https://github.com/RogerBambinetti/INE5680-tarefa-pratica-2#readme",
+  "dependencies": {
+    "otplib": "^12.0.1",
+    "prompt-sync": "^4.2.0"
+  }
+}

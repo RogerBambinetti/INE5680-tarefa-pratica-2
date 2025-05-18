@@ -1,7 +1,6 @@
 import crypto from 'crypto';
 import { promisify } from 'util';
 import { totp } from 'otplib';
-import fetch from 'node-fetch';
 
 const TOKEN = 'SEU_TOKEN_IPINFO_AQUI';
 
