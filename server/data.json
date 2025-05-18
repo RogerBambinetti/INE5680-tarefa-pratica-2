@@ -1,3 +1,10 @@
 {
-    "users": []
+  "users": [
+    {
+      "username": "teste",
+      "password": "teste",
+      "location": "BR",
+      "salt": "J42nBREasqsbvbrBCIhrFQ=="
+    }
+  ]
 }

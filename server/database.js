@@ -25,7 +25,7 @@ export function writeData(collection, data) {
         collectionData.push(data);
         currentData[collection] = collectionData;
 
-        fs.writeFileSync(DATA_FILE, JSON.stringify(collectionData, null, 2));
+        fs.writeFileSync(DATA_FILE, JSON.stringify(currentData, null, 2));
         return true;
     } catch (err) {
         console.error('Error writing data:', err);
