@@ -2,8 +2,6 @@ import crypto from 'crypto';
 import { promisify } from 'util';
 import { totp } from 'otplib';
 
-const TOKEN = 'SEU_TOKEN_IPINFO_AQUI';
-
 const pbkdf2 = promisify(crypto.pbkdf2);
 
 export async function deriveKey(password, salt) {
@@ -40,7 +38,7 @@ export function generateTOTP(secret) {
 }
 
 export async function getCountryFromIP() {
-    const res = await fetch(`https://ipinfo.io/json?token=${TOKEN}`);
+    const res = await fetch(`https://ipinfo.io/json?token=737679b6115d0e`);
     const data = await res.json();
     return data.country;
 }

@@ -1,9 +1,17 @@
-import { generateTOTP, deriveKey, encryptAESGCM } from '../shared/utils.js';
+import axios from 'axios';
+import { getCountryFromIP } from '../shared/utils.js';
 import prompt from 'prompt-sync';
+
+const client = axios.create({
+    baseURL: 'http://localhost:3000',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
 
 const readPrompt = prompt({ sigint: true });
 
-async function main() {
+export async function initClient() {
 
     while (true) {
 
@@ -19,8 +27,17 @@ async function main() {
                 const username = readPrompt('Digite o nome de usuário: ');
                 const password = readPrompt('Digite a senha: ');
                 const salt = readPrompt('Digite o salt: ');
+                const location = await getCountryFromIP();
 
-                console.log('Usuário cadastrado com sucesso!');
+                const { data } = await client.post('/user/create', {
+                    username,
+                    password,
+                    salt,
+                    location,
+                });
+
+                console.log(data.message, data.user);
+
                 break;
             case '2':
                 const usernameAuth = readPrompt('Digite o nome de usuário: ');
@@ -44,5 +61,3 @@ async function main() {
     }
 
 }
-
-main();

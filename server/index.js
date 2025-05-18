@@ -1,16 +1,23 @@
-import { generateTOTP } from './totpUtils.js';
-import { deriveKey, decryptAESGCM } from './cryptoUtils.js';
+import express from 'express';
 
-const secretTotp = 'JBSWY3DPEHPK3PXP';
-const salt = Buffer.from('somesalt12345678');
+const app = express();
 
-const totpCode = generateTOTP(secretTotp);
-const key = await deriveKey(totpCode, salt);
+export function initServer() {
 
-// Simule os valores recebidos do cliente
-const receivedCipherText = '...';
-const receivedIv = '...';
-const receivedTag = '...';
+    app.use(express.json());
 
-const plainText = decryptAESGCM(receivedCipherText, key, receivedIv, receivedTag);
-console.log('Mensagem recebida:', plainText);
+    app.post('/user/create', (req, res) => {
+        const { username, password, salt, location } = req.body;
+
+        return res.status(200).json({
+            message: 'Usuário cadastrado com sucesso!',
+            user: {
+                username,
+                location
+            },
+        });
+    });
+
+    app.listen(3000);
+}
+
