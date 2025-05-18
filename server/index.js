@@ -15,7 +15,10 @@ export function initServer() {
 
         return res.status(200).json({
             message: 'Usuário cadastrado com sucesso!',
-            user
+            user: {
+                username: user.username,
+                location: user.location,
+            }
         });
     });
 
