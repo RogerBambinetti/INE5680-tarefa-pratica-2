@@ -37,6 +37,11 @@ export function generateTOTP(secret) {
     return totp.generate(secret);
 }
 
+export function generateSalt(length = 16) {
+    const saltBuffer = crypto.randomBytes(length);
+    return saltBuffer.toString('base64');
+}
+
 export async function getCountryFromIP() {
     const res = await fetch(`https://ipinfo.io/json?token=737679b6115d0e`);
     const data = await res.json();
