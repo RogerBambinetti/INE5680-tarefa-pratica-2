@@ -3,7 +3,7 @@ import * as OTPAuth from "otpauth";
 import qreate from 'qrcode-terminal';
 
 export function derivePBKDF2Key(password, salt) {
-    const key = crypto.pbkdf2Sync(password, salt, 65536, 32, 'sha256');
+    const key = crypto.pbkdf2Sync(password, salt, 1000, 32, 'sha256');
     return key.toString('hex');
 }
 
