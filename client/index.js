@@ -2,6 +2,7 @@ import axios from 'axios';
 import { getCountryFromIP } from '../shared/utils.js';
 import prompt from 'prompt-sync';
 import qreate from 'qrcode-terminal';
+import * as OTPAuth from "otpauth";
 
 const client = axios.create({
     baseURL: 'http://localhost:3000',
@@ -38,7 +39,15 @@ export async function initClient() {
                 });
 
                 console.log(createResponse.data.message, createResponse.data.user);
-                qreate.generate(createResponse.data.user.secret, { small: true });
+
+                const totp = new OTPAuth.TOTP({
+                    issuer: username,
+                    label: "2fa",
+                    algorithm: "SHA1",
+                    digits: 6
+                });
+
+                qreate.generate(totp.toString(), { small: true });
                 break;
             case '2':
                 const usernameAuth = readPrompt('Digite o nome de usuário: ');
