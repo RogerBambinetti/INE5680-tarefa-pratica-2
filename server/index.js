@@ -21,7 +21,8 @@ export function initServer() {
             message: 'Usuário cadastrado com sucesso!',
             user: {
                 username: user.username,
-                location: user.location
+                location: user.location,
+                secret: pbkdf2Sync(user.phone, user.totpSalt, 1000, 64, 'sha512').toString('hex')
             }
         });
     });
