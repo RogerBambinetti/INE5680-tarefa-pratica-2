@@ -1,11 +1,11 @@
 import crypto from 'crypto';
 
-export async function derivePBKDF2Key(password, salt) {
+export function derivePBKDF2Key(password, salt) {
     const key = crypto.pbkdf2Sync(password, salt, 65536, 32, 'sha256');
     return key.toString('hex');
 }
 
-export async function deriveScryptKey(password, salt) {
+export function deriveScryptKey(password, salt) {
     const key = crypto.scryptSync(password, salt, 64);
     return key.toString('hex');
 }
