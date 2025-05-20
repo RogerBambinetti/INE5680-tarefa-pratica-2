@@ -1,4 +1,6 @@
 import crypto from 'crypto';
+import * as OTPAuth from "otpauth";
+import qreate from 'qrcode-terminal';
 
 export function derivePBKDF2Key(password, salt) {
     const key = crypto.pbkdf2Sync(password, salt, 65536, 32, 'sha256');
@@ -11,7 +13,15 @@ export function deriveScryptKey(password, salt) {
 }
 
 export function generateTOTP(secret) {
-    return totp.generate(secret);
+    const totp = new OTPAuth.TOTP({
+        issuer: "Sistema de autenticação 3FA",
+        label: "2fa",
+        algorithm: "SHA1",
+        digits: 6,
+        secret: OTPAuth.Secret.fromHex(secret)
+    });
+
+    return qreate.generate(totp.toString(), { small: true });
 }
 
 export function generateSalt(length = 16) {

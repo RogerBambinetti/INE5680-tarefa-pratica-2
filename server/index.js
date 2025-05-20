@@ -1,7 +1,6 @@
 import express from 'express';
 import { readData, writeData } from './database.js';
 import { generateSalt, derivePBKDF2Key, deriveScryptKey } from '../shared/utils.js';
-import * as OTPAuth from "otpauth";
 
 const app = express();
 
@@ -48,16 +47,6 @@ export function initServer() {
         }
 
         const secret = derivePBKDF2Key(user.phone, user.totpSalt);
-
-        const totp = new OTPAuth.TOTP({
-            issuer: username,
-            label: "2fa",
-            algorithm: "SHA1",
-            digits: 6,
-            secret: secret
-        });
-
-        const isTokenValid = totp.validate({ token: req.body.tokenTotp });
 
         return res.status(200).json({ message: 'Usuário autenticado com sucesso!' });
     });
