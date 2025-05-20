@@ -26,12 +26,14 @@ export async function initClient() {
             case '1':
                 const username = readPrompt('Digite o nome de usuário: ');
                 const password = readPrompt('Digite a senha: ');
+                const phone = readPrompt('Digite o telefone: ');
                 const location = await getCountryFromIP();
 
                 const { data: createData } = await client.post('/user/create', {
                     username,
                     password,
-                    location
+                    location,
+                    phone
                 });
 
                 console.log(createData.message, createData.user);

@@ -2,9 +2,10 @@
   "users": [
     {
       "username": "teste",
-      "password": "teste",
+      "password": "ceaece8af3f6289bd38f9828fddcf8e040a01222c0ea196f68010bacd996d4bcaa735c827023be5132010e68129444b96d521b7ea4f43bdfc046ac99c4c7b881",
       "location": "BR",
-      "salt": "J42nBREasqsbvbrBCIhrFQ=="
+      "phone": "32786384",
+      "salt": "U6eXXrlKrWbN3LilIX2/3A=="
     }
   ]
 }
