@@ -34,7 +34,13 @@ export async function initClient() {
                     password,
                     location,
                     phone
+                }).catch((error) => {
+                    console.error(error.response.data.message);
                 });
+
+                if (!createResponse) {
+                    break;
+                }
 
                 generateTOTP(createResponse.data.user.secret);
 
