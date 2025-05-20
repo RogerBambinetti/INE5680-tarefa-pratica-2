@@ -2,6 +2,7 @@ import express from 'express';
 import { readData, writeData } from './database.js';
 import { generateSalt } from '../shared/utils.js';
 import { pbkdf2Sync } from 'pbkdf2';
+import { scryptSync } from 'crypto';
 
 const app = express();
 
@@ -12,7 +13,7 @@ export function initServer() {
     app.post('/user/create', (req, res) => {
         const user = { ...req.body, passwordSalt: generateSalt(), totpSalt: generateSalt() };
 
-        const encryptedPassword = pbkdf2Sync(user.password, user.passwordSalt, 1000, 64, 'sha512');
+        const encryptedPassword = scryptSync(user.password, user.passwordSalt, 64);
         user.password = encryptedPassword.toString('hex');
 
         writeData('users', user);
@@ -41,7 +42,7 @@ export function initServer() {
             return res.status(401).json({ message: 'Localização inválida!' });
         }
 
-        const encryptedPassword = pbkdf2Sync(password, user.passwordSalt, 1000, 64, 'sha512');
+        const encryptedPassword = scryptSync(password, user.passwordSalt, 64);
 
         if (encryptedPassword.toString('hex') !== user.password) {
             return res.status(401).json({ message: 'Senha incorreta!' });
