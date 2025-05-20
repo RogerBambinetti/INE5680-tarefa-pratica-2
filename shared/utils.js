@@ -1,11 +1,13 @@
 import crypto from 'crypto';
-import { promisify } from 'util';
 
-const pbkdf2 = promisify(crypto.pbkdf2);
+export async function derivePBKDF2Key(password, salt) {
+    const key = crypto.pbkdf2Sync(password, salt, 65536, 32, 'sha256');
+    return key.toString('hex');
+}
 
-export async function deriveKey(password, salt) {
-    const key = await pbkdf2(password, salt, 65536, 32, 'sha256');
-    return key;
+export async function deriveScryptKey(password, salt) {
+    const key = crypto.scryptSync(password, salt, 64);
+    return key.toString('hex');
 }
 
 export function generateTOTP(secret) {

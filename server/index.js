@@ -1,8 +1,6 @@
 import express from 'express';
 import { readData, writeData } from './database.js';
-import { generateSalt } from '../shared/utils.js';
-import { pbkdf2Sync } from 'pbkdf2';
-import { scryptSync } from 'crypto';
+import { generateSalt, derivePBKDF2Key, deriveScryptKey } from '../shared/utils.js';
 import * as OTPAuth from "otpauth";
 
 const app = express();
@@ -14,7 +12,7 @@ export function initServer() {
     app.post('/user/create', (req, res) => {
         const user = { ...req.body, passwordSalt: generateSalt(), totpSalt: generateSalt() };
 
-        const encryptedPassword = scryptSync(user.password, user.passwordSalt, 64);
+        const encryptedPassword = deriveScryptKey(user.password, user.passwordSalt);
         user.password = encryptedPassword.toString('hex');
 
         writeData('users', user);
@@ -24,7 +22,7 @@ export function initServer() {
             user: {
                 username: user.username,
                 location: user.location,
-                secret: pbkdf2Sync(user.phone, user.totpSalt, 1000, 32, 'sha512').toString('hex')
+                secret: derivePBKDF2Key(user.phone, user.totpSalt)
             }
         });
     });
@@ -43,13 +41,13 @@ export function initServer() {
             return res.status(401).json({ message: 'Localização inválida!' });
         }
 
-        const encryptedPassword = scryptSync(password, user.passwordSalt, 64);
+        const encryptedPassword = deriveScryptKey(password, user.passwordSalt);
 
         if (encryptedPassword.toString('hex') !== user.password) {
             return res.status(401).json({ message: 'Senha incorreta!' });
         }
 
-        const secret = pbkdf2Sync(user.phone, user.totpSalt, 1000, 32, 'sha512').toString('hex');
+        const secret = derivePBKDF2Key(user.phone, user.totpSalt);
 
         const totp = new OTPAuth.TOTP({
             issuer: username,
