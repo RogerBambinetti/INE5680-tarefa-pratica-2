@@ -29,28 +29,29 @@ export async function initClient() {
                 const phone = readPrompt('Digite o telefone: ');
                 const location = await getCountryFromIP();
 
-                const { data: createData } = await client.post('/user/create', {
+                const createResponse = await client.post('/user/create', {
                     username,
                     password,
                     location,
                     phone
                 });
 
-                console.log(createData.message, createData.user);
+                console.log(createResponse.data.message, createResponse.data.user);
                 break;
             case '2':
                 const usernameAuth = readPrompt('Digite o nome de usuário: ');
                 const passwordAuth = readPrompt('Digite a senha: ');
+                const locationAuth = await getCountryFromIP();
 
-
-                const { data: authData } = await client.post('/user/auth', {
+                const authResponse = await client.post('/user/auth', {
                     username: usernameAuth,
                     password: passwordAuth,
-                    totpCode,
-                    secretTotp
+                    location: locationAuth
+                }).catch((error) => {
+                    console.log('Erro ao autenticar usuário:', error.message);
                 });
 
-                console.log('Usuário autenticado com sucesso!');
+                console.log(authResponse.data.message);
 
                 const message = readPrompt('Digite a mensagem a ser enviada: ');
 

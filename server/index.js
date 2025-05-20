@@ -27,7 +27,26 @@ export function initServer() {
     });
 
     app.post('/user/auth', (req, res) => {
+        const { username, password } = req.body;
 
+        const { users } = readData();
+        const user = users.find(user => user.username === username);
+
+        if (!user) {
+            return res.status(401).json({ message: 'Usuário não encontrado!' });
+        }
+
+        if (user.location !== req.body.location) {
+            return res.status(401).json({ message: 'Localização inválida!' });
+        }
+
+        const encryptedPassword = pbkdf2Sync(password, user.passwordSalt, 1000, 64, 'sha512');
+
+        if (encryptedPassword.toString('hex') !== user.password) {
+            return res.status(401).json({ message: 'Senha incorreta!' });
+        }
+
+        return res.status(200).json({ message: 'Usuário autenticado com sucesso!' });
     });
 
     app.listen(3000);
