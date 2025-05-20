@@ -7,6 +7,14 @@
       "phone": "1234567890",
       "passwordSalt": "aYQGcqoXzFMoJmNHQYbqBw==",
       "totpSalt": "3Xn8dwyIZw9pc/BjSDxjbg=="
+    },
+    {
+      "username": "teste",
+      "password": "[object Promise]",
+      "location": "BR",
+      "phone": "1234567890",
+      "passwordSalt": "NZvEoVUXbMKq17YIZY5Xtw==",
+      "totpSalt": "BzoZn3AMcWWkFY673dVmdA=="
     }
   ]
 }

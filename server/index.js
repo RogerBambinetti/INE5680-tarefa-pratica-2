@@ -13,7 +13,7 @@ export function initServer() {
         const user = { ...req.body, passwordSalt: generateSalt(), totpSalt: generateSalt() };
 
         const encryptedPassword = deriveScryptKey(user.password, user.passwordSalt);
-        user.password = encryptedPassword.toString('hex');
+        user.password = encryptedPassword;
 
         writeData('users', user);
 
@@ -43,7 +43,7 @@ export function initServer() {
 
         const encryptedPassword = deriveScryptKey(password, user.passwordSalt);
 
-        if (encryptedPassword.toString('hex') !== user.password) {
+        if (encryptedPassword !== user.password) {
             return res.status(401).json({ message: 'Senha incorreta!' });
         }
 
