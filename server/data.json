@@ -2,10 +2,11 @@
   "users": [
     {
       "username": "teste",
-      "password": "ceaece8af3f6289bd38f9828fddcf8e040a01222c0ea196f68010bacd996d4bcaa735c827023be5132010e68129444b96d521b7ea4f43bdfc046ac99c4c7b881",
+      "password": "6ff261298015a33d86048f46f9a7c91f89e40d5d8a5488e82a2eb1250220d020002022ee8437bfc4ac1377d008970e421016ade4774eb35af07d8bf1d5db590e",
       "location": "BR",
-      "phone": "32786384",
-      "salt": "U6eXXrlKrWbN3LilIX2/3A=="
+      "phone": "33573804",
+      "passwordSalt": "fWZSO+Dc0DUEtmm3pyYMNg==",
+      "totpSalt": "3pis2K9JzcU4/CATBFTyLw=="
     }
   ]
 }

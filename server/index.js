@@ -10,9 +10,9 @@ export function initServer() {
     app.use(express.json());
 
     app.post('/user/create', (req, res) => {
-        const user = { ...req.body, salt: generateSalt() };
+        const user = { ...req.body, passwordSalt: generateSalt(), totpSalt: generateSalt() };
 
-        const encryptedPassword = pbkdf2Sync(user.password, user.salt, 1000, 64, 'sha512');
+        const encryptedPassword = pbkdf2Sync(user.password, user.passwordSalt, 1000, 64, 'sha512');
         user.password = encryptedPassword.toString('hex');
 
         writeData('users', user);

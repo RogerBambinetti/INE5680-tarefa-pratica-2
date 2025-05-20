@@ -41,8 +41,7 @@ export async function initClient() {
             case '2':
                 const usernameAuth = readPrompt('Digite o nome de usuário: ');
                 const passwordAuth = readPrompt('Digite a senha: ');
-                const totpCode = readPrompt('Digite o código TOTP: ');
-                const secretTotp = readPrompt('Digite o segredo TOTP: ');
+
 
                 const { data: authData } = await client.post('/user/auth', {
                     username: usernameAuth,
