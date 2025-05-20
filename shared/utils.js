@@ -18,6 +18,7 @@ export function generateTOTP(secret) {
         label: "2fa",
         algorithm: "SHA1",
         digits: 6,
+        period: 30,
         secret: OTPAuth.Secret.fromHex(secret)
     });
 
@@ -30,10 +31,13 @@ export function validateTOTP(secret, token) {
         label: "2fa",
         algorithm: "SHA1",
         digits: 6,
+        period: 30,
         secret: OTPAuth.Secret.fromHex(secret)
     });
 
-    return !!totp.validate({ token, window: 1 });
+    const delta = totp.validate({ token });
+
+    return delta !== null;
 }
 
 export function generateSalt(length = 16) {

@@ -2,11 +2,11 @@
   "users": [
     {
       "username": "teste",
-      "password": "d8f5317a700ffe28d6c1724351ba689d19e5fa999aac41ccca6879c691b89814c90df3db04ebdffd5312e70938815f02fe8cf003b4d685a84607c5b5065aa858",
+      "password": "d414f1908d766feef57eb2853792cfc3e25b71d0ea76c76e6aef9b553177ecac5e543cdda99673cae7f1bbd3b89c0b95d311ab268659d433f33c961678153670",
       "location": "BR",
       "phone": "1234567890",
-      "passwordSalt": "ghsUU30/C4ZbhjJIYhNaOw==",
-      "totpSalt": "EMqiunEShRLAoatsfe8S/A=="
+      "passwordSalt": "wmDOVdQMObkSF0J4j83ddQ==",
+      "totpSalt": "fLInxPiEzUVNqtO3Gotx0w=="
     }
   ]
 }
