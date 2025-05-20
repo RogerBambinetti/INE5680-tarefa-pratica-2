@@ -1,4 +1,4 @@
-# Sistema de autenticação 3FA, derivação de chaves e criptografia simétrica
+# INE5680 - Sistema de autenticação 3FA, derivação de chaves e criptografia simétrica
 
 ## Requisitos
 

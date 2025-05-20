@@ -14,7 +14,7 @@ export function deriveScryptKey(password, salt) {
 
 export function generateTOTP(secret) {
     const totp = new OTPAuth.TOTP({
-        issuer: "Sistema de autenticação 3FA",
+        issuer: "INE5680 Sistema de autenticação 3FA",
         label: "2fa",
         algorithm: "SHA1",
         digits: 6,
@@ -27,7 +27,7 @@ export function generateTOTP(secret) {
 
 export function validateTOTP(secret, token) {
     const totp = new OTPAuth.TOTP({
-        issuer: "Sistema de autenticação 3FA",
+        issuer: "INE5680 Sistema de autenticação 3FA",
         label: "2fa",
         algorithm: "SHA1",
         digits: 6,
