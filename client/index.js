@@ -38,16 +38,18 @@ export async function initClient() {
                     phone
                 });
 
-                console.log(createResponse.data.message, createResponse.data.user);
-
                 const totp = new OTPAuth.TOTP({
                     issuer: username,
                     label: "2fa",
                     algorithm: "SHA1",
-                    digits: 6
+                    digits: 6,
+                    secret: OTPAuth.Secret.fromHex(createResponse.data.user.secret)
                 });
 
                 qreate.generate(totp.toString(), { small: true });
+
+                console.log(createResponse.data.message);
+
                 break;
             case '2':
                 const usernameAuth = readPrompt('Digite o nome de usuário: ');

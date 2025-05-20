@@ -23,7 +23,7 @@ export function initServer() {
             user: {
                 username: user.username,
                 location: user.location,
-                secret: pbkdf2Sync(user.phone, user.totpSalt, 1000, 32, 'sha512')
+                secret: pbkdf2Sync(user.phone, user.totpSalt, 1000, 32, 'sha512').toString('hex')
             }
         });
     });
