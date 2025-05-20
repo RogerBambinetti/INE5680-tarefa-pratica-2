@@ -54,11 +54,13 @@ export async function initClient() {
             case '2':
                 const usernameAuth = readPrompt('Digite o nome de usuário: ');
                 const passwordAuth = readPrompt('Digite a senha: ');
+                const tokenTotpAuth = readPrompt('Digite o token TOTP: ');
                 const locationAuth = await getCountryFromIP();
 
                 const authResponse = await client.post('/user/auth', {
                     username: usernameAuth,
                     password: passwordAuth,
+                    tokenTotp: tokenTotpAuth,
                     location: locationAuth
                 }).catch((error) => {
                     console.log('Erro ao autenticar usuário!');

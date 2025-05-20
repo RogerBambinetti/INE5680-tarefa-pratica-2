@@ -3,6 +3,7 @@ import { readData, writeData } from './database.js';
 import { generateSalt } from '../shared/utils.js';
 import { pbkdf2Sync } from 'pbkdf2';
 import { scryptSync } from 'crypto';
+import * as OTPAuth from "otpauth";
 
 const app = express();
 
@@ -47,6 +48,18 @@ export function initServer() {
         if (encryptedPassword.toString('hex') !== user.password) {
             return res.status(401).json({ message: 'Senha incorreta!' });
         }
+
+        const secret = pbkdf2Sync(user.phone, user.totpSalt, 1000, 32, 'sha512').toString('hex');
+
+        const totp = new OTPAuth.TOTP({
+            issuer: username,
+            label: "2fa",
+            algorithm: "SHA1",
+            digits: 6,
+            secret: secret
+        });
+
+        const isTokenValid = totp.validate({ token: req.body.tokenTotp });
 
         return res.status(200).json({ message: 'Usuário autenticado com sucesso!' });
     });
