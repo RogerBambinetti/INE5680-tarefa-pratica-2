@@ -51,7 +51,7 @@ export async function initClient() {
                     tokenTotp: tokenTotpAuth,
                     location: locationAuth
                 }).catch((error) => {
-                    console.log(error.response.data.message);
+                    console.error(error.response.data.message);
                 });
 
                 if (!authResponse) {
