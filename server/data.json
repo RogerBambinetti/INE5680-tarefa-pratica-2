@@ -1,3 +1,12 @@
 {
-  "users": []
+  "users": [
+    {
+      "username": "teste",
+      "password": "1348580633a90322ab69edc828a074034d152998f4f73b7c38f4488014cbc917a1a5ba68d58a28f3577d7f63f1d387ce95e3c93d8b33fadcc3b717cff893a676",
+      "location": "BR",
+      "phone": "1234567890",
+      "passwordSalt": "x7iSYvjTlESOERjlDXdggg==",
+      "totpSalt": "5G2ACwWwjqMYoLDA+4GbCg=="
+    }
+  ]
 }

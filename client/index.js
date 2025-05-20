@@ -59,8 +59,12 @@ export async function initClient() {
                     password: passwordAuth,
                     location: locationAuth
                 }).catch((error) => {
-                    console.log('Erro ao autenticar usuário:', error.message);
+                    console.log('Erro ao autenticar usuário!');
                 });
+
+                if (!authResponse) {
+                    break;
+                }
 
                 console.log(authResponse.data.message);
 
