@@ -1,6 +1,6 @@
 import express from 'express';
 import { readData, writeData } from './database.js';
-import { generateSalt, derivePBKDF2Key, deriveScryptKey } from '../shared/utils.js';
+import { generateSalt, derivePBKDF2Key, deriveScryptKey, validateTOTP } from '../shared/utils.js';
 
 const app = express();
 
@@ -47,6 +47,11 @@ export function initServer() {
         }
 
         const secret = derivePBKDF2Key(user.phone, user.totpSalt);
+        const isTokenValid = validateTOTP(secret, req.body.tokenTotp);
+
+        if (!isTokenValid) {
+            return res.status(401).json({ message: 'Token TOTP inválido!' });
+        }
 
         return res.status(200).json({ message: 'Usuário autenticado com sucesso!' });
     });

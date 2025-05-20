@@ -24,6 +24,18 @@ export function generateTOTP(secret) {
     return qreate.generate(totp.toString(), { small: true });
 }
 
+export function validateTOTP(secret, token) {
+    const totp = new OTPAuth.TOTP({
+        issuer: "Sistema de autenticação 3FA",
+        label: "2fa",
+        algorithm: "SHA1",
+        digits: 6,
+        secret: OTPAuth.Secret.fromHex(secret)
+    });
+
+    return !!totp.validate({ token, window: 1 });
+}
+
 export function generateSalt(length = 16) {
     const saltBuffer = crypto.randomBytes(length);
     return saltBuffer.toString('base64');
