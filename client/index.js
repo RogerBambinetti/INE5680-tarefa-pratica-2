@@ -70,12 +70,12 @@ export async function initClient() {
 
                 const message = readPrompt('Digite a mensagem a ser enviada: ');
                 const key = derivePBKDF2Key(tokenTotpAuth, messageSalt);
-
                 const iv = generateIV();
 
-                const encryptedMessage = cipherGcm(message, key, iv);
+                const [encryptedMessage, authTag] = cipherGcm(message, key, iv);
 
                 console.log('Mensagem criptografada:', encryptedMessage);
+                console.log('Auth Tag:', authTag);
 
                 console.log('Mensagem enviada com sucesso!');
 

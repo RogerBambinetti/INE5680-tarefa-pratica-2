@@ -18,7 +18,22 @@ export function cipherGcm(message, key, iv) {
     let encrypted = cipher.update(message);
     encrypted = Buffer.concat([encrypted, cipher.final()]);
 
-    return encrypted.toString('hex');
+    return [encrypted.toString('hex'), cipher.getAuthTag().toString('hex')];
+}
+
+export function decipherGcm(encryptedMessage, key, iv, authTag) {
+    const decipher = crypto.createDecipheriv(
+        'aes-256-gcm',
+        Buffer.from(key, 'hex'),
+        iv
+    );
+
+    decipher.setAuthTag(Buffer.from(authTag, 'hex'));
+
+    let decrypted = decipher.update(Buffer.from(encryptedMessage, 'hex'));
+    decrypted = Buffer.concat([decrypted, decipher.final()]);
+
+    return decrypted.toString('utf8');
 }
 
 export function generateTOTP(secret) {
