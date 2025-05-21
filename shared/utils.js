@@ -13,7 +13,7 @@ export function deriveScryptKey(password, salt) {
 }
 
 export function cipherGcm(message, key, iv) {
-    const cipher = crypto.createCipheriv('aes-256-gcm', Buffer.from(key, 'hex'), iv);
+    const cipher = crypto.createCipheriv('aes-256-gcm', Buffer.from(key, 'hex'), Buffer.from(iv, 'hex'));
 
     let encrypted = cipher.update(message);
     encrypted = Buffer.concat([encrypted, cipher.final()]);
@@ -25,7 +25,7 @@ export function decipherGcm(encryptedMessage, key, iv, authTag) {
     const decipher = crypto.createDecipheriv(
         'aes-256-gcm',
         Buffer.from(key, 'hex'),
-        iv
+        Buffer.from(iv, 'hex')
     );
 
     decipher.setAuthTag(Buffer.from(authTag, 'hex'));
@@ -71,7 +71,7 @@ export function generateSalt(length = 16) {
 
 export function generateIV() {
     const iv = crypto.randomBytes(12);
-    return iv;
+    return iv.toString('hex');
 }
 
 export async function getCountryFromIP() {

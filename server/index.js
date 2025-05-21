@@ -1,6 +1,6 @@
 import express from 'express';
 import { readData, writeData } from './database.js';
-import { generateSalt, derivePBKDF2Key, deriveScryptKey, validateTOTP } from '../shared/utils.js';
+import { generateSalt, derivePBKDF2Key, deriveScryptKey, validateTOTP, decipherGcm } from '../shared/utils.js';
 
 const app = express();
 
@@ -54,6 +54,20 @@ export function initServer() {
         }
 
         return res.status(200).json({ message: 'Usuário autenticado com sucesso!', messageSalt: user.messageSalt });
+    });
+
+    app.post('/user/message', (req, res) => {
+        const { username, tokenTotp, encryptedMessage, authTag, iv } = req.body;
+
+        const { users } = readData();
+        const user = users.find(user => user.username === username);
+
+        const key = derivePBKDF2Key(tokenTotp, user.messageSalt);
+        const decryptedMessage = decipherGcm(encryptedMessage, key, iv, authTag);
+
+        console.log('[Servidor] Mensagem decifrada:', decryptedMessage);
+
+        return res.status(200).json({ message: 'Mensagem recebida com sucesso!' });
     });
 
     app.listen(3000);

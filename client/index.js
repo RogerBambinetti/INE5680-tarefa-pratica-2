@@ -74,10 +74,15 @@ export async function initClient() {
 
                 const [encryptedMessage, authTag] = cipherGcm(message, key, iv);
 
-                console.log('Mensagem criptografada:', encryptedMessage);
-                console.log('Auth Tag:', authTag);
-
-                console.log('Mensagem enviada com sucesso!');
+                const messageResponse = await client.post('/user/message', {
+                    username: usernameAuth,
+                    tokenTotp: tokenTotpAuth,
+                    encryptedMessage,
+                    authTag,
+                    iv,
+                }).catch((error) => {
+                    console.error(error);
+                });
 
                 break;
             case '3':
