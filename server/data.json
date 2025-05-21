@@ -1,14 +1,14 @@
 {
   "users": [
     {
-      "username": "test",
-      "password": "619620e336bf8890ed338ce3b7802eb7ff7b996be0411bc0d7ecb1a5e9de24d626a41ee3c2218c44bde38082767640913367170a482d4cf382979dbc52771958",
+      "username": "teste",
+      "password": "a2d8951cede79c072632035d4f2ce013a239c4ef9717152c4b2610d68dcabb14dc1e5d3e64dfc4a64711e5d03ca7b7f4ce4b494b74843fca9efac0b19b1f63fd",
       "location": "BR",
-      "phone": "343434",
-      "passwordSalt": "yZ00BSj9cusgSD0XzjAn6Q==",
-      "totpSalt": "GqyJ+mdG+aik+pr4loubyw==",
-      "messageSalt": "q50Fm7KDXLiAASNuFYax1Q==",
-      "sessionTotp": "434344"
+      "phone": "7878787878",
+      "passwordSalt": "uDaBUewRfy8MIxtBlRRITg==",
+      "totpSalt": "nV6xl3s/v06q/4MiHm8v9w==",
+      "messageSalt": "9dU6yjQJAYmqhcOknsfKrg==",
+      "sessionTotp": "769929"
     }
   ]
 }

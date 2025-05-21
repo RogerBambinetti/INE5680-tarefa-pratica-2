@@ -64,25 +64,39 @@ export async function initClient() {
                     break;
                 }
 
-                console.log(authResponse.data.message);
+                // console.log(authResponse.data.message);
 
                 const { messageSalt } = authResponse.data;
 
-                const message = readPrompt('Digite a mensagem a ser enviada: ');
-                const key = derivePBKDF2Key(tokenTotpAuth, messageSalt);
-                const iv = generateIV();
+                while (true) {
+                    console.log('--- Menu de Mensagens ---');
+                    console.log('1. Enviar mensagem');
+                    console.log('2. Sair');
 
-                const [encryptedMessage, authTag] = cipherGcm(message, key, iv);
+                    const messageOption = readPrompt('Selecione uma opção: ');
 
-                const messageResponse = await client.post('/user/message', {
-                    username: usernameAuth,
-                    encryptedMessage,
-                    authTag,
-                    iv,
-                }).catch((error) => {
-                    console.error(error);
-                });
+                    if (messageOption == '1') {
+                            const message = readPrompt('Digite a mensagem a ser enviada: ');
+                            const key = derivePBKDF2Key(tokenTotpAuth, messageSalt);
+                            const iv = generateIV();
 
+                            const [encryptedMessage, authTag] = cipherGcm(message, key, iv);
+
+                            const messageResponse = await client.post('/user/message', {
+                                username: usernameAuth,
+                                encryptedMessage,
+                                authTag,
+                                iv,
+                            }).catch((error) => {
+                                console.error(error);
+                            });
+                    } else if (messageOption == '2') {
+                        console.log('Voltaldo ao menu principal...');
+                        break;
+                    } else {
+                        console.log('Opção inválida. Tente novamente.');
+                    }
+                }
                 break;
             case '3':
                 console.log('Saindo...');
