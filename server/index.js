@@ -68,7 +68,7 @@ export function initServer() {
         const key = derivePBKDF2Key(user.sessionTotp, user.messageSalt);
         const decryptedMessage = decipherGcm(encryptedMessage, key, iv, authTag);
 
-        console.log('[Servidor] Mensagem decifrada:', decryptedMessage);
+        console.log('Mensagem decifrada:', decryptedMessage);
 
         return res.status(200).json({ message: 'Mensagem recebida com sucesso!' });
     });

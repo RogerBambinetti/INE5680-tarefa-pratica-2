@@ -1,4 +1,4 @@
-import axios from 'axios';
+import superagent from 'superagent';
 import prompt from 'prompt-sync';
 import { getCountryFromIP, generateTOTP, generateIV, derivePBKDF2Key, cipherGcm } from '../shared/utils.js';
 
@@ -21,12 +21,7 @@ console.error = function () {
     return originalConsoleError.apply(console, args);
 };
 
-const client = axios.create({
-    baseURL: 'http://localhost:3000',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-});
+const baseURL = 'http://localhost:3000';
 
 const readPrompt = prompt({ sigint: true });
 
@@ -48,20 +43,20 @@ export async function initClient() {
                 const phone = readPrompt('Digite o telefone: ');
                 const location = await getCountryFromIP();
 
-                const createResponse = await client.post('/user/create', {
+                const createResponse = await superagent.post(baseURL + '/user/create').send({
                     username,
                     password,
                     location,
                     phone
                 }).catch((error) => {
-                    console.error(error.response.data.message);
+                    console.error(error.response.text);
                 });
 
                 if (!createResponse) {
                     break;
                 }
 
-                generateTOTP(createResponse.data.user.secret);
+                generateTOTP(createResponse.body.user.secret);
 
                 break;
             case '2':
@@ -70,22 +65,20 @@ export async function initClient() {
                 const tokenTotpAuth = readPrompt('Digite o token TOTP: ');
                 const locationAuth = await getCountryFromIP();
 
-                const authResponse = await client.post('/user/auth', {
+                const authResponse = await superagent.post(baseURL + '/user/auth').send({
                     username: usernameAuth,
                     password: passwordAuth,
                     tokenTotp: tokenTotpAuth,
                     location: locationAuth
                 }).catch((error) => {
-                    console.error(error.response.data.message);
+                    console.error(error.response.text);
                 });
 
                 if (!authResponse) {
                     break;
                 }
 
-                // console.log(authResponse.data.message);
-
-                const { messageSalt } = authResponse.data;
+                const { messageSalt } = authResponse.body;
 
                 while (true) {
                     console.log('--- Menu de Mensagens ---');
@@ -101,7 +94,7 @@ export async function initClient() {
 
                         const [encryptedMessage, authTag] = cipherGcm(message, key, iv);
 
-                        const messageResponse = await client.post('/user/message', {
+                        const messageResponse = await superagent.post(baseURL + '/user/message').send({
                             username: usernameAuth,
                             encryptedMessage,
                             authTag,
