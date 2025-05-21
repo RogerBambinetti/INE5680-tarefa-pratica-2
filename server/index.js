@@ -9,7 +9,7 @@ export function initServer() {
     app.use(express.json());
 
     app.post('/user/create', (req, res) => {
-        const user = { ...req.body, passwordSalt: generateSalt(), totpSalt: generateSalt() };
+        const user = { ...req.body, passwordSalt: generateSalt(), totpSalt: generateSalt(), messageSalt: generateSalt() };
 
         const encryptedPassword = deriveScryptKey(user.password, user.passwordSalt);
         user.password = encryptedPassword;
@@ -53,7 +53,7 @@ export function initServer() {
             return res.status(401).json({ message: 'Token TOTP inválido!' });
         }
 
-        return res.status(200).json({ message: 'Usuário autenticado com sucesso!' });
+        return res.status(200).json({ message: 'Usuário autenticado com sucesso!', messageSalt: user.messageSalt });
     });
 
     app.listen(3000);

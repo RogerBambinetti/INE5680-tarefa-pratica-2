@@ -1,6 +1,6 @@
 import axios from 'axios';
 import prompt from 'prompt-sync';
-import { getCountryFromIP, generateTOTP } from '../shared/utils.js';
+import { getCountryFromIP, generateTOTP, generateIV, derivePBKDF2Key, cipherGcm } from '../shared/utils.js';
 
 const client = axios.create({
     baseURL: 'http://localhost:3000',
@@ -66,7 +66,16 @@ export async function initClient() {
 
                 console.log(authResponse.data.message);
 
+                const { messageSalt } = authResponse.data;
+
                 const message = readPrompt('Digite a mensagem a ser enviada: ');
+                const key = derivePBKDF2Key(tokenTotpAuth, messageSalt);
+
+                const iv = generateIV();
+
+                const encryptedMessage = cipherGcm(message, key, iv);
+
+                console.log('Mensagem criptografada:', encryptedMessage);
 
                 console.log('Mensagem enviada com sucesso!');
 

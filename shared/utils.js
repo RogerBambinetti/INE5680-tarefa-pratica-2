@@ -12,6 +12,15 @@ export function deriveScryptKey(password, salt) {
     return key.toString('hex');
 }
 
+export function cipherGcm(message, key, iv) {
+    const cipher = crypto.createCipheriv('aes-256-gcm', Buffer.from(key, 'hex'), iv);
+
+    let encrypted = cipher.update(message);
+    encrypted = Buffer.concat([encrypted, cipher.final()]);
+
+    return encrypted.toString('hex');
+}
+
 export function generateTOTP(secret) {
     const totp = new OTPAuth.TOTP({
         issuer: "INE5680 Sistema de autenticação 3FA",
@@ -43,6 +52,11 @@ export function validateTOTP(secret, token) {
 export function generateSalt(length = 16) {
     const saltBuffer = crypto.randomBytes(length);
     return saltBuffer.toString('base64');
+}
+
+export function generateIV() {
+    const iv = crypto.randomBytes(12);
+    return iv;
 }
 
 export async function getCountryFromIP() {
