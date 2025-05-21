@@ -2,6 +2,25 @@ import axios from 'axios';
 import prompt from 'prompt-sync';
 import { getCountryFromIP, generateTOTP, generateIV, derivePBKDF2Key, cipherGcm } from '../shared/utils.js';
 
+const originalConsoleError = console.error;
+
+const redColor = '\x1b[31m';
+const resetColor = '\x1b[0m';
+
+console.error = function () {
+    const args = Array.from(arguments);
+
+    if (typeof args[0] === 'string') {
+        args[0] = redColor + args[0];
+    } else {
+        args.unshift(redColor);
+    }
+
+    args.push(resetColor);
+
+    return originalConsoleError.apply(console, args);
+};
+
 const client = axios.create({
     baseURL: 'http://localhost:3000',
     headers: {
@@ -76,20 +95,20 @@ export async function initClient() {
                     const messageOption = readPrompt('Selecione uma opção: ');
 
                     if (messageOption == '1') {
-                            const message = readPrompt('Digite a mensagem a ser enviada: ');
-                            const key = derivePBKDF2Key(tokenTotpAuth, messageSalt);
-                            const iv = generateIV();
+                        const message = readPrompt('Digite a mensagem a ser enviada: ');
+                        const key = derivePBKDF2Key(tokenTotpAuth, messageSalt);
+                        const iv = generateIV();
 
-                            const [encryptedMessage, authTag] = cipherGcm(message, key, iv);
+                        const [encryptedMessage, authTag] = cipherGcm(message, key, iv);
 
-                            const messageResponse = await client.post('/user/message', {
-                                username: usernameAuth,
-                                encryptedMessage,
-                                authTag,
-                                iv,
-                            }).catch((error) => {
-                                console.error(error);
-                            });
+                        const messageResponse = await client.post('/user/message', {
+                            username: usernameAuth,
+                            encryptedMessage,
+                            authTag,
+                            iv,
+                        }).catch((error) => {
+                            console.error(error);
+                        });
                     } else if (messageOption == '2') {
                         console.log('Voltaldo ao menu principal...');
                         break;
@@ -107,3 +126,5 @@ export async function initClient() {
     }
 
 }
+
+initClient();

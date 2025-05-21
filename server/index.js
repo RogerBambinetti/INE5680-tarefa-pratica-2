@@ -73,6 +73,9 @@ export function initServer() {
         return res.status(200).json({ message: 'Mensagem recebida com sucesso!' });
     });
 
-    app.listen(3000);
+    app.listen(3000, () => {
+        console.log('Servidor rodando na porta 3000');
+    });
 }
 
+initServer();

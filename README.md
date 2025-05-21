@@ -22,7 +22,12 @@
 
 ## Execução
 
-Para iniciar o projeto, execute:
+Para iniciar o projeto, execute o servidor com:
 ```bash
-npm start
+npm run start:server
+```
+
+Em seguida, inicie o cliente:
+```bash
+npm run start:client
 ```

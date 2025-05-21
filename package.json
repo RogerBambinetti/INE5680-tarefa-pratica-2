@@ -5,7 +5,8 @@
   "description": "- [Node.js](https://nodejs.org/) (versão 22)\r - [npm](https://www.npmjs.com/) (geralmente instalado junto com o Node.js)",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start:client": "node client/index.js",
+    "start:server": "node server/index.js"
   },
   "repository": {
     "type": "git",
