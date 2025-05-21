@@ -59,7 +59,7 @@ export function validateTOTP(secret, token) {
         secret: OTPAuth.Secret.fromHex(secret)
     });
 
-    const delta = totp.validate({ token });
+    const delta = totp.validate({ token })
 
     return delta !== null;
 }

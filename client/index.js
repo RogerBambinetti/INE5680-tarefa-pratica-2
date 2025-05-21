@@ -76,7 +76,6 @@ export async function initClient() {
 
                 const messageResponse = await client.post('/user/message', {
                     username: usernameAuth,
-                    tokenTotp: tokenTotpAuth,
                     encryptedMessage,
                     authTag,
                     iv,
