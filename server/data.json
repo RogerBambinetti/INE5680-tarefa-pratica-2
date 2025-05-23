@@ -1,14 +1,3 @@
 {
-  "users": [
-    {
-      "username": "teste",
-      "password": "a2d8951cede79c072632035d4f2ce013a239c4ef9717152c4b2610d68dcabb14dc1e5d3e64dfc4a64711e5d03ca7b7f4ce4b494b74843fca9efac0b19b1f63fd",
-      "location": "BR",
-      "phone": "7878787878",
-      "passwordSalt": "uDaBUewRfy8MIxtBlRRITg==",
-      "totpSalt": "nV6xl3s/v06q/4MiHm8v9w==",
-      "messageSalt": "9dU6yjQJAYmqhcOknsfKrg==",
-      "sessionTotp": "483374"
-    }
-  ]
+  "users": []
 }
